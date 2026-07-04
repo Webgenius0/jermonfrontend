@@ -111,14 +111,19 @@ export const homeConcierge = {
   },
   main: {
     title: "Concierjería de compras en Europa – Arte y Lujo",
-    paragraphs: [
+    intro:
       "Ofrecemos a nuestros clientes en la República Dominicana un servicio de compra y abastecimiento en Europa, destinado a objetos de lujo, piezas raras y obras de arte.",
-      "Algunas casas, galerías y boutiques europeas no venden a distancia, rechazan a los compradores no europeos, o reservan ciertos productos para una clientela local o fiel.",
-      "Compramos por usted, en su nombre, en Europa, y luego organizamos el envío seguro a Santo Domingo o al extranjero.",
+    boutiqueHeading: "Algunas casas, galerías y boutiques europeas:",
+    boutiqueBullets: [
+      "no venden a distancia",
+      "rechazan a los compradores no europeos",
+      "reservan productos para clientela local o fiel",
     ],
+    closing:
+      "Compramos por usted, en su nombre, en Europa, y luego organizamos el envío seguro a Santo Domingo o al extranjero.",
     cta: { label: "Más información", href: "/concierjeria-de-compras-en-europa-arte-y-lujo" },
     image:
-      "https://bagiard.com/wp-content/uploads/2024/06/luxury-retro-broadcast-radio-receiver-768x1152.webp",
+      "https://bagiard.com/wp-content/uploads/2024/06/IMG_4856-768x1013.webp",
   },
 };
 

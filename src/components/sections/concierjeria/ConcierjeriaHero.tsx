@@ -1,13 +1,12 @@
+import { concierjeriaHero } from "@/data/pages/concierjeria";
+
 export default function ConcierjeriaHero() {
   return (
-    <section className="bg-brand-light py-16">
+    <section className="bg-brand-cream py-20 md:min-h-[280px] md:py-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        <h1 className="text-4xl font-bold text-brand-dark">
-          Concierjería de compras en Europa
+        <h1 className="max-w-3xl text-3xl font-bold leading-tight text-brand-dark md:text-4xl lg:text-[2.5rem]">
+          {concierjeriaHero.title}
         </h1>
-        <p className="mt-4 max-w-2xl text-brand-muted">
-          Section placeholder — content from legacy/index.html
-        </p>
       </div>
     </section>
   );

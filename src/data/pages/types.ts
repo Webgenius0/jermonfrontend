@@ -32,6 +32,7 @@ export type ImageAccordionSection = {
   title: string;
   paragraphs?: string[];
   bullets?: string[];
+  closing?: string;
   images: { src: string; alt?: string }[];
 };
 
@@ -39,6 +40,7 @@ export type ServiceCard = {
   title: string;
   description: string;
   bullets?: string[];
+  footer?: string;
 };
 
 export type ServiceCardsSection = {

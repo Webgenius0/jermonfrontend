@@ -1,18 +1,32 @@
+import { createPageMetadata } from "@/components/shared/PagePlaceholder";
 import {
-  createPageMetadata,
-  PagePlaceholder,
-} from "@/components/shared/PagePlaceholder";
+  ConcierjeriaFAQSection,
+  ConcierjeriaHero,
+  DemandingClienteleSection,
+  EuropeSourcingIntro,
+  JoinUsCTA,
+  PieceSearchCTA,
+  TailoredProcessSection,
+  WhatWeDoSection,
+} from "@/components/sections/concierjeria";
+import { concierjeriaPage } from "@/data/pages/concierjeria";
 
 export const metadata = createPageMetadata(
-  "Concierjería de compras en Europa",
-  "Concierjería de compras en Europa — arte y lujo.",
+  concierjeriaPage.title,
+  concierjeriaPage.metaDescription,
 );
 
 export default function ConcierjeriaPage() {
   return (
-    <PagePlaceholder
-      title="Concierjería de compras en Europa"
-      description="Servicios de concierjería de compras para arte y lujo en Europa."
-    />
+    <>
+      <ConcierjeriaHero />
+      <EuropeSourcingIntro />
+      <WhatWeDoSection />
+      <DemandingClienteleSection />
+      <TailoredProcessSection />
+      <ConcierjeriaFAQSection />
+      <PieceSearchCTA />
+      <JoinUsCTA />
+    </>
   );
 }

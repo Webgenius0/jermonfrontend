@@ -1,4 +1,13 @@
-import type { PageContent } from "./types";
+import type {
+  CTASection,
+  FAQSection,
+  HeroSection,
+  ImageAccordionSection,
+  PageContent,
+  ProcessStepsSection,
+  ServiceCardsSection,
+  TextSection,
+} from "./types";
 
 /**
  * Main content extracted from doc/index.html lines 3966–6767
@@ -85,6 +94,8 @@ export const concierjeriaPage: PageContent = {
             "ediciones limitadas o producciones confidenciales",
             "artículos disponibles únicamente en boutiques físicas",
           ],
+          footer:
+            "Conocemos los códigos, las limitaciones y las exigencias propias de las casas de lujo europeas.",
         },
         {
           title: "Arte y objetos de colección",
@@ -94,6 +105,8 @@ export const concierjeriaPage: PageContent = {
             "piezas ofrecidas en ventas privadas",
             "objetos de arte y de colección de difícil acceso a distancia",
           ],
+          footer:
+            "Actuamos con una comprensión profunda del mercado, de sus usos y de sus exigencias.",
         },
       ],
     },
@@ -118,6 +131,8 @@ export const concierjeriaPage: PageContent = {
         "exigen discreción, fiabilidad y experiencia",
         "no quieren confiar sus compras al azar ni a intermediarios no especializados",
       ],
+      closing:
+        "Cada solicitud es única. Cada misión se gestiona de forma individual.",
     },
     {
       type: "process-steps",
@@ -365,3 +380,20 @@ export const concierjeriaPage: PageContent = {
     },
   ],
 };
+
+function getSection<T extends PageContent["sections"][number]>(id: string): T {
+  const section = concierjeriaPage.sections.find((s) => s.id === id);
+  if (!section) {
+    throw new Error(`Missing concierjeria section: ${id}`);
+  }
+  return section as T;
+}
+
+export const concierjeriaHero = getSection<HeroSection>("hero");
+export const concierjeriaIntro = getSection<TextSection>("europe-sourcing-intro");
+export const concierjeriaServices = getSection<ServiceCardsSection>("what-we-do");
+export const concierjeriaClientele = getSection<ImageAccordionSection>("demanding-clientele");
+export const concierjeriaProcess = getSection<ProcessStepsSection>("tailored-approach");
+export const concierjeriaFaq = getSection<FAQSection>("faq");
+export const concierjeriaPieceCta = getSection<CTASection>("specific-piece-cta");
+export const concierjeriaJoinCta = getSection<CTASection>("join-us-cta");

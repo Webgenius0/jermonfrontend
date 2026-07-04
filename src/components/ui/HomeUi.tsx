@@ -3,7 +3,7 @@ import Link from "next/link";
 type GoldButtonProps = {
   href: string;
   children: React.ReactNode;
-  variant?: "solid" | "outline";
+  variant?: "solid" | "outline" | "dark";
   className?: string;
 };
 
@@ -18,7 +18,9 @@ export function GoldButton({
   const styles =
     variant === "solid"
       ? "bg-brand-gold text-brand-black hover:bg-brand-gold-light"
-      : "border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-black";
+      : variant === "dark"
+        ? "border border-brand-gold bg-brand-charcoal text-white hover:bg-brand-black"
+        : "border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-black";
 
   return (
     <Link href={href} className={`${base} ${styles} ${className}`}>
@@ -73,6 +75,22 @@ export function GoldDivider() {
       <span className="h-px flex-1 bg-brand-gold/50" />
       <span className="h-2 w-2 rotate-45 bg-brand-gold" />
       <span className="h-px flex-1 bg-brand-gold/50" />
+    </div>
+  );
+}
+
+type ImageDividerProps = {
+  src: string;
+  alt?: string;
+};
+
+export function ImageDivider({ src, alt = "" }: ImageDividerProps) {
+  return (
+    <div className="mx-auto my-8 flex max-w-md items-center gap-4">
+      <span className="h-px flex-1 bg-brand-gold/40" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={alt} className="h-8 w-auto object-contain" />
+      <span className="h-px flex-1 bg-brand-gold/40" />
     </div>
   );
 }
