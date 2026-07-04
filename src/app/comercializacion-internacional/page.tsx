@@ -1,12 +1,30 @@
+import { createPageMetadata } from "@/components/shared/PagePlaceholder";
 import {
-  createPageMetadata,
-  PagePlaceholder,
-} from "@/components/shared/PagePlaceholder";
+  AudienceSection,
+  ComercializacionHero,
+  ConnectTalentIntro,
+  JoinSubscriptionCTA,
+  PlatformMarqueeSection,
+  WhatWeDoForYouSection,
+  WhyInternationalSection,
+} from "@/components/sections/comercializacion";
+import { comercializacionPage } from "@/data/pages/comercializacion";
 
-export const metadata = createPageMetadata("Comercialización internacional");
+export const metadata = createPageMetadata(
+  comercializacionPage.title,
+  comercializacionPage.metaDescription,
+);
 
 export default function ComercializacionPage() {
   return (
-    <PagePlaceholder title="Comercialización internacional" />
+    <>
+      <ComercializacionHero />
+      <PlatformMarqueeSection />
+      <ConnectTalentIntro />
+      <WhyInternationalSection />
+      <WhatWeDoForYouSection />
+      <AudienceSection />
+      <JoinSubscriptionCTA />
+    </>
   );
 }

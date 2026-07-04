@@ -1,15 +1,22 @@
+import { createPageMetadata } from "@/components/shared/PagePlaceholder";
 import {
-  createPageMetadata,
-  PagePlaceholder,
-} from "@/components/shared/PagePlaceholder";
+  ContactFormSection,
+  ContactHero,
+  ContactInfoSection,
+} from "@/components/sections/contactenos";
+import { contactPage } from "@/data/pages/contactenos";
 
-export const metadata = createPageMetadata("Contáctenos");
+export const metadata = createPageMetadata(
+  contactPage.title,
+  contactPage.metaDescription,
+);
 
 export default function ContactenosPage() {
   return (
-    <PagePlaceholder
-      title="Contáctenos"
-      description="Contact form will use React Hook Form."
-    />
+    <>
+      <ContactHero />
+      <ContactFormSection />
+      <ContactInfoSection />
+    </>
   );
 }

@@ -129,14 +129,14 @@ export const homeConcierge = {
 
 export const homeCategories = [
   {
-    id: "jewelry",
+    id: "jewelry" as const,
     title: "Joyas y Relojes",
     cta: "Obtenga una cotización instantánea",
     button: "Simulación",
     href: "/contactenos",
   },
   {
-    id: "painting",
+    id: "painting" as const,
     title: "Pintura y Arte gráfico",
     cta: "Obtenga una cotización instantánea",
     button: "Simulación",
@@ -159,25 +159,30 @@ export const homeProcess = {
   title: "Proceso sencillo y eficaz",
   steps: [
     {
-      title: "atención",
+      icon: "attention" as const,
+      title: "Atención",
       description:
         "Seguimiento de sus artículos desde el punto de recogida hasta nuestras instalaciones.",
     },
     {
+      icon: "store" as const,
       title: "Almacén",
       description:
         "Una vez en nuestras instalaciones, sus artículos se almacenan y preparan antes de ser embalados.",
     },
     {
+      icon: "packing" as const,
       title: "Empaque",
       description:
         "Empaque cuidadoso adaptado a la fragilidad y al valor de cada objeto.",
     },
     {
+      icon: "shipment" as const,
       title: "Envío",
       description: "Servicio de envío variado y adaptado a cada destino.",
     },
     {
+      icon: "delivery" as const,
       title: "Entrega",
       description:
         "Siga el envío de sus lotes desde nuestras instalaciones hasta la entrega en mano de su artículo.",
