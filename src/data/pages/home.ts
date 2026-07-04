@@ -69,18 +69,21 @@ export const homeExpertise = {
   items: [
     {
       number: "01",
+      icon: "rocket" as const,
       title: "Envío rápido y confiable",
       description:
         "Garantizamos envíos rápidos y confiables a todo el mundo, asegurándonos de que sus mercancías lleguen a su destino de forma segura y puntual.",
     },
     {
       number: "02",
+      icon: "package" as const,
       title: "Empaque profesional",
       description:
         "Nuestro equipo utiliza técnicas de embalaje avanzadas para garantizar una protección óptima de sus objetos durante el transporte.",
     },
     {
       number: "03",
+      icon: "headset" as const,
       title: "Procesamiento rápido",
       description:
         "Procedimientos sencillos, eficaces y rápidos para servicios en un plazo de 24 a 48 horas.",

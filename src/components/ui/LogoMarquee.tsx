@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 
 export type MarqueeLogo = {
   name: string;
@@ -8,20 +11,30 @@ export type MarqueeLogo = {
 
 type LogoMarqueeProps = {
   logos: MarqueeLogo[];
+  /** Animation duration in seconds — lower = faster */
   speed?: number;
 };
 
-export default function LogoMarquee({ logos, speed = 35 }: LogoMarqueeProps) {
+export default function LogoMarquee({ logos, speed = 40 }: LogoMarqueeProps) {
+  const [paused, setPaused] = useState(false);
   const track = [...logos, ...logos];
 
   return (
-    <div className="relative overflow-hidden border-b border-brand-light bg-brand-cream/50 py-6">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-brand-cream/50 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-brand-cream/50 to-transparent" />
+    <div
+      className="relative overflow-hidden border-b border-brand-light bg-brand-cream py-6"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-brand-cream to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-brand-cream to-transparent" />
 
       <div
-        className="flex w-max animate-marquee items-center gap-12 px-6"
-        style={{ animationDuration: `${speed}s` }}
+        className="flex w-max items-center gap-12 px-6"
+        style={{
+          animation: `marquee ${speed}s linear infinite`,
+          animationPlayState: paused ? "paused" : "running",
+          willChange: "transform",
+        }}
       >
         {track.map((logo, index) => (
           <div
@@ -34,7 +47,8 @@ export default function LogoMarquee({ logos, speed = 35 }: LogoMarqueeProps) {
                 alt={logo.alt ?? logo.name}
                 width={140}
                 height={56}
-                className="max-h-14 w-auto object-contain"
+                className="h-auto max-h-14 w-auto object-contain"
+                draggable={false}
               />
             ) : (
               <span className="text-center text-xs font-semibold uppercase tracking-widest text-brand-muted/80">
