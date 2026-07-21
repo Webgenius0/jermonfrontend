@@ -3,8 +3,9 @@ import {
   ContactFormSection,
   ContactHero,
   ContactInfoSection,
-} from "@/components/sections/contactenos";
-import { contactPage } from "@/data/pages/contactenos";
+} from "@/components/sections/contact";
+import JoinUsCTA from "@/components/sections/about-us/JoinUsCTA";
+import { contactPage } from "@/data/pages/contact";
 
 export const metadata = createPageMetadata(
   contactPage.title,
@@ -17,6 +18,8 @@ export default function ContactenosPage() {
       <ContactHero />
       <ContactFormSection />
       <ContactInfoSection />
+      <JoinUsCTA />
     </>
   );
 }
+

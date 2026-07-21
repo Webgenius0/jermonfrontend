@@ -1,117 +1,184 @@
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
-import { footerQuickLinks, siteConfig } from "@/lib/site-config";
+import { FooterLink } from "@/components/layout/FooterLink";
+import {
+  getFooterLegalLinks,
+  getFooterQuickLinks,
+  siteConfig,
+} from "@/lib/site-config";
+import { getFooterExtras } from "@/lib/i18n-shared";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
-  return (
-    <footer className="bg-brand-black text-white">
-      <div className="mx-auto max-w-7xl px-4 py-12 lg:px-6">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-          {/* Brand */}
-          <div className="lg:col-span-2">
-            <Link href="/" className="inline-block">
-              <span className="text-3xl font-bold text-white">{siteConfig.name}</span>
-            </Link>
-            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/80">
-              <strong className="text-white">BAGIA RD</strong> es una{" "}
-              <em>empresa logística en Santo Domingo</em> especializada en{" "}
-              <em>transporte internacional</em> y{" "}
-              <em>servicios de carga aérea y marítima</em>, con soluciones de{" "}
-              <em>almacenaje y distribución en toda la República Dominicana</em>{" "}
-              y servicio integral como <em>agente aduanal RD</em>.
-            </p>
-          </div>
+  const { language } = useLanguage();
 
-          {/* Quick links */}
-          <div>
-            <h2 className="mb-4 text-lg font-semibold">Enlaces rápidos</h2>
-            <ul className="space-y-2 text-sm text-white/80">
-              {footerQuickLinks.map((link) => (
-                <li key={link.label}>
-                  {link.href === "#" ? (
-                    <span>{link.label}</span>
-                  ) : (
-                    <Link
+  const quickLinks = getFooterQuickLinks(language);
+  const legalLinks = getFooterLegalLinks(language);
+  const footerExtras = getFooterExtras(language);
+
+  const titles = {
+    es: {
+      tagline: "Sus solicitudes son nuestros compromisos",
+      desc: "es una empresa de logística en Santo Domingo especializada en transporte internacional, servicios de carga aérea y marítima, almacenamiento y distribución en la República Dominicana.",
+      quickLinks: "Enlaces rápidos",
+      legalNotice: "Avisos legales",
+      contactUs: "Contáctenos",
+      rights: "Todos los derechos reservados.",
+    },
+    fr: {
+      tagline: "Vos demandes sont nos engagements",
+      desc: "est une entreprise de logistique à Saint-Domingue spécialisée dans le transport international, le fret aérien et maritime, le stockage et la distribution en République Dominicaine.",
+      quickLinks: "Liens rapides",
+      legalNotice: "Mentions légales",
+      contactUs: "Contactez-nous",
+      rights: "Tous droits réservés.",
+    },
+    en: {
+      tagline: "Your requests are our commitments",
+      desc: "is a logistics company in Santo Domingo specializing in international transport, air and sea freight services, storage and distribution solutions across the Dominican Republic.",
+      quickLinks: "Quick links",
+      legalNotice: "Legal notice",
+      contactUs: "Contact us",
+      rights: "All rights reserved.",
+    },
+  }[language];
+
+  return (
+    <footer className="border-t-4 border-brand-gold text-white">
+      <div className="bg-brand-charcoal py-10 sm:py-12">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-8">
+            {/* Brand */}
+            <div className="lg:pr-4">
+              <Link href="/" className="inline-block">
+                <Image
+                  src={siteConfig.logoInverted}
+                  alt={siteConfig.name}
+                  width={180}
+                  height={61}
+                  className="h-auto w-36 sm:w-40"
+                />
+              </Link>
+              <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-brand-gold">
+                {titles.tagline}
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-white/70">
+                <strong className="font-semibold text-white">BAGIA RD</strong>{" "}
+                {titles.desc}
+              </p>
+              <p className="mt-3 text-xs leading-relaxed text-white/50">
+                {siteConfig.rnc}
+              </p>
+            </div>
+
+            {/* Quick links */}
+            <div>
+              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-brand-gold">
+                {titles.quickLinks}
+              </h2>
+              <ul className="grid grid-cols-1 gap-x-4 gap-y-2 text-sm text-white/80 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                {quickLinks.map((link) => (
+                  <li key={link.label}>
+                    <FooterLink
                       href={link.href}
-                      className="hover:text-brand-primary"
+                      className="transition-colors hover:text-brand-gold"
                     >
                       {link.label}
-                    </Link>
-                  )}
+                    </FooterLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Legal notice */}
+            <div>
+              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-brand-gold">
+                {titles.legalNotice}
+              </h2>
+              <ul className="space-y-2.5 text-sm text-white/80">
+                {legalLinks.map((link) => (
+                  <li key={link.label}>
+                    <FooterLink
+                      href={link.href}
+                      className="block leading-snug transition-colors hover:text-brand-gold"
+                    >
+                      {link.label}
+                    </FooterLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-brand-gold">
+                {titles.contactUs}
+              </h2>
+              <ul className="space-y-2.5 text-sm text-white/80">
+                <li>
+                  <a
+                    href={`mailto:${siteConfig.email}`}
+                    className="inline-flex items-center gap-2.5 transition-colors hover:text-brand-gold"
+                  >
+                    <EnvelopeIcon className="h-4 w-4 shrink-0 text-brand-gold" />
+                    {siteConfig.email}
+                  </a>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h2 className="mb-4 text-lg font-semibold">Get In Touch</h2>
-            <ul className="space-y-3 text-sm text-white/80">
-              <li>
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="inline-flex items-center gap-2 hover:text-brand-primary"
-                >
-                  <EnvelopeIcon className="h-4 w-4 shrink-0" />
-                  {siteConfig.email}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
-                  className="inline-flex items-center gap-2 hover:text-brand-primary"
-                >
-                  <PhoneIcon className="h-4 w-4 shrink-0" />
-                  {siteConfig.phone}
-                </a>
-              </li>
-            </ul>
-
-            <div className="mt-6 flex items-center gap-3">
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="YouTube"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-brand-primary"
-              >
-                <YouTubeIcon className="h-4 w-4" />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-brand-primary"
-              >
-                <InstagramIcon className="h-4 w-4" />
-              </a>
-              <a
-                href={siteConfig.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="WhatsApp"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-brand-primary"
-              >
-                <WhatsAppIcon className="h-4 w-4" />
-              </a>
+                <li>
+                  <a
+                    href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
+                    className="inline-flex items-center gap-2.5 transition-colors hover:text-brand-gold"
+                  >
+                    <PhoneIcon className="h-4 w-4 shrink-0 text-brand-gold" />
+                    {siteConfig.phone}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={siteConfig.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 transition-colors hover:text-brand-gold"
+                  >
+                    <WhatsAppIcon className="h-4 w-4 shrink-0 text-brand-gold" />
+                    {footerExtras.whatsapp}
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-white/10">
-        <div className="mx-auto max-w-7xl px-4 py-6 text-center text-sm text-white/70 lg:px-6">
-          <p>
-            BAGIA RD, S.R.L. © All rights reserved.
-            <br />
-            {siteConfig.address}
+      {/* Copyright bar */}
+      <div className="bg-brand-gold text-brand-black">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-3 px-4 py-4 sm:px-6 lg:grid-cols-[1fr_auto_auto] lg:gap-6 lg:px-8 lg:py-5">
+          <div className="text-sm leading-relaxed">
+            <p className="font-medium">BAGIA RD, S.R.L. © {titles.rights}</p>
+            <p className="text-brand-black/75">{siteConfig.address}</p>
+          </div>
+
+          <p className="text-center text-xs text-brand-black/70 lg:text-left">
+            Copyright © {new Date().getFullYear()} BAGIA {footerExtras.copyright}
           </p>
-          <p className="mt-2">Copyright © {new Date().getFullYear()} BAGIA</p>
+
+          <div className="flex justify-end">
+            <a
+              href="#top"
+              aria-label={footerExtras.backToTop}
+              className="inline-flex h-10 w-10 items-center justify-center bg-brand-charcoal text-white transition-opacity hover:opacity-90 cursor-pointer"
+            >
+              <ArrowUpIcon className="h-4 w-4" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>
   );
 }
+
 
 function EnvelopeIcon({ className }: { className?: string }) {
   return (
@@ -137,18 +204,10 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-function YouTubeIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 576 512" fill="currentColor" aria-hidden="true">
-      <path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z" />
-    </svg>
-  );
-}
-
-function InstagramIcon({ className }: { className?: string }) {
+function ArrowUpIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 448 512" fill="currentColor" aria-hidden="true">
-      <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+      <path d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" />
     </svg>
   );
 }

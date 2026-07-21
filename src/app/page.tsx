@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
 import {
-  CategoryBannerSection,
   ConciergeSection,
   ContactSection,
   ExpertiseSection,
   FAQSection,
   GlobalMarketSection,
   HeroSection,
+  HomeJewelryBanner,
+  HomePaintingBanner,
   PartnersSection,
   ProcessSection,
   TestimonialsSection,
   TrackOrderSection,
 } from "@/components/sections/home";
-import { homeCategories, homePage } from "@/data/pages/home";
+import { homePage } from "@/data/pages/home";
 
 export const metadata: Metadata = {
   title: homePage.title,
@@ -20,8 +21,6 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  const [jewelry, painting] = homeCategories;
-
   return (
     <>
       <HeroSection />
@@ -29,10 +28,10 @@ export default function HomePage() {
       <ExpertiseSection />
       <ConciergeSection />
       <TrackOrderSection />
-      <CategoryBannerSection {...jewelry} />
+      <HomeJewelryBanner />
       <GlobalMarketSection />
       <ProcessSection />
-      <CategoryBannerSection {...painting} />
+      <HomePaintingBanner />
       <TestimonialsSection />
       <FAQSection />
       <ContactSection />

@@ -1,3 +1,5 @@
+export { default as HomeJewelryBanner } from "./HomeJewelryBanner";
+export { default as HomePaintingBanner } from "./HomePaintingBanner";
 export { default as HeroSection } from "./HeroSection";
 export { default as PartnersSection } from "./PartnersSection";
 export { default as ExpertiseSection } from "./ExpertiseSection";

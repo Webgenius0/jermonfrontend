@@ -1,32 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { homeFaq } from "@/data/pages/home";
+import { getHomeFaq } from "@/data/pages/home";
+import { useLanguage } from "@/context/LanguageContext";
 import { SectionHeading } from "@/components/ui/HomeUi";
 
 export default function FAQSection() {
+  const { language } = useLanguage();
+  const faqData = getHomeFaq(language);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="bg-brand-cream py-16 md:py-20">
+    <section className="home-section bg-white">
       <div className="mx-auto max-w-3xl px-4 lg:px-6">
-        <SectionHeading title={homeFaq.title} />
+        <SectionHeading title={faqData.title} />
 
         <div className="space-y-3">
-          {homeFaq.items.map((item, index) => {
+          {faqData.items.map((item, index) => {
             const isOpen = openIndex === index;
             return (
               <div
                 key={item.question}
-                className={`overflow-hidden rounded-lg border transition-colors ${
+                className={`overflow-hidden rounded-xl border transition-colors ${
                   isOpen
-                    ? "border-brand-gold bg-brand-gold text-brand-black"
-                    : "border-brand-light bg-white"
+                    ? "border-brand-gold bg-brand-gold text-brand-black shadow-md"
+                    : "border-black/5 bg-brand-cream hover:border-brand-gold/30"
                 }`}
               >
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-semibold"
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-semibold cursor-pointer"
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   aria-expanded={isOpen}
                 >
@@ -44,13 +47,6 @@ export default function FAQSection() {
                         ))}
                       </ul>
                     )}
-                    {item.orderedList && (
-                      <ol className="mt-3 list-decimal space-y-1 pl-5">
-                        {item.orderedList.map((step) => (
-                          <li key={step}>{step}</li>
-                        ))}
-                      </ol>
-                    )}
                   </div>
                 )}
               </div>
@@ -61,3 +57,4 @@ export default function FAQSection() {
     </section>
   );
 }
+

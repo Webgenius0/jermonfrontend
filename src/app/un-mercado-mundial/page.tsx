@@ -3,25 +3,25 @@ import {
   BeginningIntro,
   DominicanPotentialSection,
   GlobalMarketStats,
-  MercadoHero,
-  MissionCTA,
+  HeroSection,
   ObstaclesSection,
   PremiumLogisticsSection,
   PromisingMarketsSection,
   SalesImpactSection,
   TradeNormSection,
-} from "@/components/sections/mercado-mundial";
-import { mercadoMundialPage } from "@/data/pages/mercado-mundial";
+} from "@/components/sections/global-market";
+import JoinUsCTA from "@/components/sections/about-us/JoinUsCTA";
+import { globalMarketPage } from "@/data/pages/global-market";
 
 export const metadata = createPageMetadata(
-  mercadoMundialPage.title,
-  mercadoMundialPage.metaDescription,
+  globalMarketPage.title,
+  globalMarketPage.metaDescription,
 );
 
 export default function MercadoMundialPage() {
   return (
     <>
-      <MercadoHero />
+      <HeroSection />
       <BeginningIntro />
       <GlobalMarketStats />
       <TradeNormSection />
@@ -30,7 +30,8 @@ export default function MercadoMundialPage() {
       <ObstaclesSection />
       <PremiumLogisticsSection />
       <SalesImpactSection />
-      <MissionCTA />
+      <JoinUsCTA />
     </>
   );
 }
+

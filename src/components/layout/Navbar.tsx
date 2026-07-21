@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { mainNavigation, siteConfig } from "@/lib/site-config";
+import { getMainNavigation, getNavButtons, siteConfig } from "@/lib/site-config";
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 
 function ChevronDownIcon({ className }: { className?: string }) {
   return (
@@ -43,8 +45,12 @@ function isActivePath(pathname: string, href?: string, children?: { href: string
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { language } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  const navigation = getMainNavigation(language);
+  const buttons = getNavButtons(language);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -54,13 +60,13 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 shadow-sm">
       {/* Top bar */}
-      <div className="bg-brand-primary text-white">
+      <div className="bg-brand-gold text-brand-black">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-sm lg:px-6">
-          <ul className="flex flex-wrap items-center gap-x-5 gap-y-1">
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-1 font-semibold text-xs md:text-sm">
             <li>
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="inline-flex items-center gap-2 hover:text-brand-light"
+                className="inline-flex items-center gap-2 hover:text-brand-charcoal/70 transition-colors"
               >
                 <EnvelopeIcon className="h-4 w-4" />
                 {siteConfig.email}
@@ -75,23 +81,24 @@ export default function Navbar() {
                 href={siteConfig.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:text-brand-light"
+                className="inline-flex items-center gap-2 hover:text-brand-charcoal/70 transition-colors"
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 WhatsApp
               </a>
             </li>
           </ul>
-          <div className="text-xs text-white/80">ES | EN | FR</div>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+          </div>
         </div>
-        <div className="h-px bg-brand-primary-dark" />
       </div>
 
       {/* Main nav */}
-      <div className="border-b border-brand-light bg-white">
+      <div className="border-b border-white/10 bg-brand-charcoal">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:px-6">
           <Link href="/" className="shrink-0">
-            <span className="text-2xl font-bold tracking-tight text-brand-primary">
+            <span className="text-2xl font-bold tracking-tight text-white">
               {siteConfig.name}
             </span>
           </Link>
@@ -100,7 +107,7 @@ export default function Navbar() {
             className="hidden items-center gap-1 lg:flex"
             aria-label="Main navigation"
           >
-            {mainNavigation.map((item) => {
+            {navigation.map((item) => {
               const active = isActivePath(pathname, item.href, item.children);
 
               if (item.children) {
@@ -108,25 +115,25 @@ export default function Navbar() {
                   <div key={item.label} className="group relative">
                     <button
                       type="button"
-                      className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium ${
+                      className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold transition-colors cursor-pointer ${
                         active
-                          ? "text-brand-primary"
-                          : "text-brand-dark hover:text-brand-primary"
+                          ? "text-brand-gold"
+                          : "text-white/90 hover:text-brand-gold"
                       }`}
                       aria-haspopup="true"
                     >
                       {item.label}
                       <ChevronDownIcon className="h-3 w-3" />
                     </button>
-                    <div className="invisible absolute left-0 top-full z-50 min-w-[260px] rounded-md border border-brand-light bg-white py-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100">
+                    <div className="invisible absolute left-0 top-full z-50 min-w-[260px] overflow-hidden rounded-2xl border border-brand-gold/30 bg-brand-charcoal py-2 opacity-0 shadow-2xl transition-all group-hover:visible group-hover:opacity-100">
                       {item.children.map((child) => (
                         <Link
                           key={child.href}
                           href={child.href}
-                          className={`block px-4 py-2 text-sm hover:bg-brand-light hover:text-brand-primary ${
+                          className={`block px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-brand-gold hover:text-brand-black ${
                             pathname === child.href
-                              ? "text-brand-primary"
-                              : "text-brand-muted"
+                              ? "bg-brand-gold text-brand-black"
+                              : "text-white/85"
                           }`}
                         >
                           {child.label}
@@ -141,10 +148,10 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   href={item.href ?? "#"}
-                  className={`rounded-md px-3 py-2 text-sm font-medium ${
+                  className={`rounded-md px-3 py-2 text-sm font-semibold transition-colors ${
                     active
-                      ? "text-brand-primary"
-                      : "text-brand-dark hover:text-brand-primary"
+                      ? "text-brand-gold"
+                      : "text-white/90 hover:text-brand-gold"
                   }`}
                 >
                   {item.label}
@@ -155,23 +162,23 @@ export default function Navbar() {
 
           <div className="hidden items-center gap-3 lg:flex">
             <Link
-              href="/seguimiento"
-              className="rounded-md border border-brand-primary px-4 py-2 text-sm font-semibold text-brand-primary hover:bg-brand-primary hover:text-white"
+              href="/order-tracking"
+              className="rounded-full border border-brand-gold px-5 py-2 text-xs font-bold uppercase tracking-wider text-brand-gold transition-colors hover:bg-brand-gold hover:text-brand-black"
             >
-              Seguimiento
+              {buttons.followUp}
             </Link>
-            <button
-              type="button"
-              className="rounded-md bg-brand-primary px-4 py-2 text-sm font-semibold text-white hover:bg-brand-primary-dark"
+            <Link
+              href="/offers-and-subscriptions"
+              className="rounded-full border border-brand-gold bg-brand-gold px-5 py-2 text-xs font-bold uppercase tracking-wider text-brand-black transition-colors hover:bg-brand-gold-light"
             >
-              Iniciar sesión
-            </button>
+              {buttons.login}
+            </Link>
           </div>
 
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-brand-dark lg:hidden"
-            aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white lg:hidden cursor-pointer"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((prev) => !prev)}
           >
@@ -181,18 +188,18 @@ export default function Navbar() {
 
         {mobileOpen && (
           <nav
-            className="border-t border-brand-light bg-white px-4 py-4 lg:hidden"
+            className="border-t border-white/10 bg-brand-charcoal px-4 py-4 lg:hidden"
             aria-label="Mobile navigation"
           >
             <ul className="space-y-1">
-              {mainNavigation.map((item) => {
+              {navigation.map((item) => {
                 if (item.children) {
                   const expanded = openDropdown === item.label;
                   return (
                     <li key={item.label}>
                       <button
                         type="button"
-                        className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm font-medium text-brand-dark"
+                        className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm font-medium text-white"
                         onClick={() =>
                           setOpenDropdown(expanded ? null : item.label)
                         }
@@ -203,15 +210,15 @@ export default function Navbar() {
                         />
                       </button>
                       {expanded && (
-                        <ul className="ml-3 space-y-1 border-l border-brand-light pl-3">
+                        <ul className="ml-3 space-y-1 border-l border-white/10 pl-3">
                           {item.children.map((child) => (
                             <li key={child.href}>
                               <Link
                                 href={child.href}
                                 className={`block rounded-md px-3 py-2 text-sm ${
                                   pathname === child.href
-                                    ? "text-brand-primary"
-                                    : "text-brand-muted hover:text-brand-primary"
+                                    ? "text-brand-gold"
+                                    : "text-white/75 hover:text-brand-gold"
                                 }`}
                               >
                                 {child.label}
@@ -230,8 +237,8 @@ export default function Navbar() {
                       href={item.href ?? "#"}
                       className={`block rounded-md px-3 py-2 text-sm font-medium ${
                         pathname === item.href
-                          ? "text-brand-primary"
-                          : "text-brand-dark hover:text-brand-primary"
+                          ? "text-brand-gold"
+                          : "text-white/90 hover:text-brand-gold"
                       }`}
                     >
                       {item.label}
@@ -240,19 +247,22 @@ export default function Navbar() {
                 );
               })}
             </ul>
-            <div className="mt-4 flex flex-col gap-2 border-t border-brand-light pt-4">
+            <div className="mt-4 flex justify-center px-4 pb-2">
+              <LanguageSwitcher variant="dark" />
+            </div>
+            <div className="mt-4 flex flex-col gap-2 border-t border-white/10 pt-4">
               <Link
-                href="/seguimiento"
-                className="rounded-md border border-brand-primary px-4 py-2 text-center text-sm font-semibold text-brand-primary"
+                href="/order-tracking"
+                className="rounded-full border border-brand-gold px-4 py-2 text-center text-xs font-bold uppercase tracking-wider text-brand-gold"
               >
-                Seguimiento
+                {buttons.followUp}
               </Link>
-              <button
-                type="button"
-                className="rounded-md bg-brand-primary px-4 py-2 text-sm font-semibold text-white"
+              <Link
+                href="/offers-and-subscriptions"
+                className="rounded-full bg-brand-gold px-4 py-2 text-center text-xs font-bold uppercase tracking-wider text-brand-black"
               >
-                Iniciar sesión
-              </button>
+                {buttons.login}
+              </Link>
             </div>
           </nav>
         )}
@@ -284,3 +294,5 @@ function WhatsAppIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+

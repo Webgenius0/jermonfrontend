@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type CategoryBannerProps = {
@@ -6,142 +7,95 @@ type CategoryBannerProps = {
   cta: string;
   button: string;
   href: string;
+  image: string;
+  imageAlt: string;
+  imagePosition?: "left" | "right";
 };
 
-function JewelryIcon() {
+function ImagePanel({ image, imageAlt }: { image: string; imageAlt: string }) {
   return (
-    <svg
-      viewBox="0 0 120 160"
-      fill="none"
-      className="h-36 w-28 md:h-44 md:w-32"
-      aria-hidden="true"
-    >
-      <path
-        d="M60 18c-14 0-26 10-26 24v8c0 8 4 14 10 18v52c0 6 5 10 16 10s16-4 16-10V68c6-4 10-10 10-18v-8c0-14-12-24-26-24Z"
-        stroke="white"
-        strokeWidth="2.5"
-        strokeLinejoin="round"
+    <div className="group relative h-64 w-full shrink-0 overflow-hidden rounded-3xl bg-black/60 shadow-[0_20px_50px_rgba(0,0,0,0.5)] ring-1 ring-brand-gold/30 transition-transform duration-500 hover:scale-[1.02] sm:h-72 sm:w-64 md:h-80 md:w-72 lg:h-96 lg:w-80">
+      <Image
+        src={image}
+        alt={imageAlt}
+        fill
+        className="object-cover transition-transform duration-700 group-hover:scale-110"
+        sizes="(max-width: 768px) 100vw, 320px"
       />
-      <path
-        d="M34 50c0 0 12 10 26 10s26-10 26-10"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M60 60v18"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M48 78h24"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M42 148h36"
-        stroke="white"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M48 148v8M72 148v8"
-        stroke="white"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M60 72 54 84h12L60 72Z"
-        fill="#c9a227"
-        stroke="#c9a227"
-        strokeWidth="1"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function PaintingIcon() {
-  return (
-    <svg
-      viewBox="0 0 120 160"
-      fill="none"
-      className="h-36 w-28 md:h-44 md:w-32"
-      aria-hidden="true"
-    >
-      <rect
-        x="22"
-        y="24"
-        width="76"
-        height="96"
-        rx="2"
-        stroke="white"
-        strokeWidth="2.5"
-      />
-      <rect
-        x="30"
-        y="32"
-        width="60"
-        height="72"
-        stroke="white"
-        strokeWidth="1.5"
-        strokeDasharray="4 3"
-      />
-      <circle cx="52" cy="58" r="10" stroke="white" strokeWidth="2" />
-      <path
-        d="M38 96 56 72 68 84 82 64"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M60 120v20M44 140h32"
-        stroke="white"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M78 52 84 46 90 52 84 58 78 52Z"
-        fill="#c9a227"
-        stroke="#c9a227"
-        strokeWidth="1"
-      />
-    </svg>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+      
+      {/* Corner Badge */}
+      <div className="absolute bottom-4 left-4 right-4">
+        <span className="inline-block rounded-full bg-brand-gold/90 px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider text-brand-black shadow-lg backdrop-blur-md">
+          Premium Logistics
+        </span>
+      </div>
+    </div>
   );
 }
 
 export default function CategoryBannerSection({
-  id,
   title,
   cta,
   button,
   href,
+  image,
+  imageAlt,
+  imagePosition = "left",
 }: CategoryBannerProps) {
-  return (
-    <section className="bg-[#2d2d2d] py-12 md:py-14">
-      <div className="mx-auto max-w-5xl px-4 lg:px-6">
-        <div className="flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-center md:gap-14 lg:gap-20">
-          <div className="shrink-0">
-            {id === "jewelry" ? <JewelryIcon /> : <PaintingIcon />}
-          </div>
+  const isRight = imagePosition === "right";
+  const ctaClassName =
+    "group mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-gold-gradient px-9 py-3.5 text-sm font-extrabold uppercase tracking-wider text-brand-black shadow-[0_0_25px_rgba(201,162,39,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(201,162,39,0.6)] cursor-pointer";
 
-          <div className="text-center md:text-left">
-            <h2 className="text-2xl font-bold text-white md:text-3xl lg:text-4xl">
-              {title}
-            </h2>
-            <p className="mt-2 text-sm text-white/75 md:text-base">{cta}</p>
-            <Link
-              href={href}
-              className="mt-6 inline-flex rounded-full border border-brand-gold px-8 py-2.5 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-gold hover:text-brand-black"
-            >
-              {button}
-            </Link>
+  return (
+    <section className="relative overflow-hidden bg-[#0a0a0a] py-16 md:py-24 text-white">
+      {/* Background Lighting */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(201,162,39,0.15),transparent_65%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(201,162,39,0.08),transparent_50%)]" />
+
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="rounded-3xl border border-brand-gold/25 bg-white/[0.03] p-8 md:p-12 lg:p-14 backdrop-blur-xl shadow-[0_30px_70px_rgba(0,0,0,0.5)]">
+          <div className={`flex flex-col items-center gap-10 md:flex-row md:items-center md:justify-between lg:gap-16 ${isRight ? "md:flex-row-reverse" : ""}`}>
+            <ImagePanel image={image} imageAlt={imageAlt} />
+
+            <div className="flex-1 text-center md:text-left">
+              <span className="inline-block rounded-full bg-brand-gold/15 border border-brand-gold/30 px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-brand-gold-light">
+                Specialized Handling
+              </span>
+
+              <h2 className="mt-4 text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
+                {title}
+              </h2>
+
+              <p className="mt-4 text-base text-gray-300 sm:text-lg lg:text-xl font-medium leading-relaxed max-w-xl">
+                {cta}
+              </p>
+
+              {href.startsWith("http") ? (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={ctaClassName}
+                >
+                  <span>{button}</span>
+                  <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </a>
+              ) : (
+                <Link href={href} className={ctaClassName}>
+                  <span>{button}</span>
+                  <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
+

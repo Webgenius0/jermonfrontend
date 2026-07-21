@@ -1,15 +1,7 @@
-import {
-  createPageMetadata,
-  PagePlaceholder,
-} from "@/components/shared/PagePlaceholder";
+"use client";
 
-export const metadata = createPageMetadata("Seguimiento");
+import { TrackOrderSection } from "@/components/sections/home";
 
 export default function SeguimientoPage() {
-  return (
-    <PagePlaceholder
-      title="Seguimiento"
-      description="Track your shipment."
-    />
-  );
+  return <TrackOrderSection />;
 }
