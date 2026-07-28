@@ -102,14 +102,15 @@ export function getMainNavigation(lang: Language): NavItem[] {
 export function getNavButtons(lang: Language) {
   switch (lang) {
     case "es":
-      return { followUp: "Seguimiento", login: "Iniciar Sesión" };
+      return { followUp: "Seguimiento", login: "Área Cliente", logout: "Cerrar Sesión" };
     case "fr":
-      return { followUp: "Suivi de Commande", login: "Connexion" };
+      return { followUp: "Suivi de Commande", login: "Espace Client", logout: "Déconnexion" };
     case "en":
     default:
-      return { followUp: "Follow-Up", login: "Login" };
+      return { followUp: "Follow-Up", login: "Client Area", logout: "Sign Out" };
   }
 }
+
 
 export function getFooterQuickLinks(lang: Language): NavLink[] {
   switch (lang) {
