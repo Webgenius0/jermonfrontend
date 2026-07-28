@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getMainNavigation, getNavButtons, siteConfig } from "@/lib/site-config";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAuth } from "@/context/AuthContext";
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 
 function ChevronDownIcon({ className }: { className?: string }) {
@@ -46,11 +47,13 @@ function isActivePath(pathname: string, href?: string, children?: { href: string
 export default function Navbar() {
   const pathname = usePathname();
   const { language } = useLanguage();
+  const { user, isAuthenticated, openAuthModal, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const navigation = getMainNavigation(language);
   const buttons = getNavButtons(language);
+
 
   useEffect(() => {
     setMobileOpen(false);
@@ -167,13 +170,73 @@ export default function Navbar() {
             >
               {buttons.followUp}
             </Link>
-            <Link
-              href="/offers-and-subscriptions"
-              className="rounded-full border border-brand-gold bg-brand-gold px-5 py-2 text-xs font-bold uppercase tracking-wider text-brand-black transition-colors hover:bg-brand-gold-light"
-            >
-              {buttons.login}
-            </Link>
+
+            {isAuthenticated && user ? (
+              <div className="group relative z-50">
+                <button
+                  type="button"
+                  className="flex items-center gap-2.5 rounded-full border border-brand-gold/40 bg-brand-gold/10 px-3.5 py-1.5 transition-all hover:border-brand-gold hover:bg-brand-gold/20 cursor-pointer"
+                >
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gold-gradient font-bold text-brand-black text-xs shadow-md">
+                    {user.name.charAt(0)}
+                  </div>
+                  <span className="text-xs font-bold text-white max-w-[120px] truncate">
+                    {user.name}
+                  </span>
+                  <span className="rounded-full bg-brand-gold/20 px-2 py-0.5 text-[10px] font-bold text-brand-gold-light">
+                    {user.subscriptionTier === "PRIVATE CONCIERGE"
+                      ? "CONCIERGE"
+                      : user.subscriptionTier === "PRO COLLECTION"
+                      ? "PRO"
+                      : "ESSENTIAL"}
+                  </span>
+                  <ChevronDownIcon className="h-3 w-3 text-brand-gold" />
+                </button>
+
+                {/* Dropdown Menu */}
+                <div className="invisible absolute right-0 top-full z-50 mt-1 min-w-[220px] overflow-hidden rounded-2xl border border-brand-gold/30 bg-[#0d0d0d] p-2 opacity-0 shadow-2xl transition-all group-hover:visible group-hover:opacity-100">
+                  <div className="border-b border-white/10 px-3 py-2">
+                    <p className="text-xs font-bold text-white truncate">{user.name}</p>
+                    <p className="text-[11px] text-gray-400 truncate">{user.email}</p>
+                  </div>
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold text-white hover:bg-brand-gold hover:text-brand-black transition-colors"
+                  >
+                    📊 Dashboard
+                  </Link>
+                  <Link
+                    href="/seguimiento"
+                    className="flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-white hover:bg-brand-gold hover:text-brand-black transition-colors"
+                  >
+                    📦 My Shipments
+                  </Link>
+                  <Link
+                    href="/offers-and-subscriptions"
+                    className="flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-white hover:bg-brand-gold hover:text-brand-black transition-colors"
+                  >
+                    💎 My Subscription
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={logout}
+                    className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer"
+                  >
+                    🚪 {buttons.logout || "Logout"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => openAuthModal("login")}
+                className="rounded-full border border-brand-gold bg-brand-gold px-5 py-2 text-xs font-bold uppercase tracking-wider text-brand-black transition-colors hover:bg-brand-gold-light cursor-pointer"
+              >
+                {buttons.login}
+              </button>
+            )}
           </div>
+
 
           <button
             type="button"

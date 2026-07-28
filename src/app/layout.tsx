@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
+import AppShell from "@/components/layout/AppShell";
+import { AuthProvider } from "@/context/AuthContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,14 +38,14 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} font-sans`} id="top">
         <LanguageProvider>
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          <AuthProvider>
+            <AppShell>{children}</AppShell>
+          </AuthProvider>
         </LanguageProvider>
       </body>
     </html>
   );
 }
+
+
 
