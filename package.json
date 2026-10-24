@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "node api.js && next dev",
-    "dev:turbo": "next dev --turbopack",
-    "build": "node api.js && next build",
-    "start": "node api.js && next start",
+    "dev": "node init && next dev",
+    "dev:turbo": "node init && next dev --turbopack",
+    "build": "node init && next build",
+    "start": "node init && next start",
     "lint": "eslint .",
     "clean": "node -e \"try{require('fs').rmSync('.next',{recursive:true,force:true})}catch(e){}\""
   },
